@@ -9,7 +9,7 @@
  
     </head>
     <body>
-    	<?php require_once("twitteroauth/twitteroauth.php");
+        <?php require_once("twitteroauth/twitteroauth.php");
     $consumer_key = 'xxxxxxxxxxxxxxxxxxxxxx';                               // Put your consumer key here
     $consumer_secret = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';         // Put your consumer secret here
     $access_token = 'xxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';   // Put your access token here
@@ -23,7 +23,18 @@
             ?>
         <ul>
             <?php  foreach ($tweets as $key => $tweet): ?>
-                <li><?php echo ereg_replace("[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]", "<a href=\"\\0\">\\0</a>", $tweet->text); ?></li>
+                <li><?php 
+
+                    //links
+            $tweet = ereg_replace("[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]","<a target='_blank' href=\"\\0\">\\0</a>",  $tweet->text); 
+            //#
+            $tweet = preg_replace('/(^|\s)#(\w*[a-zA-Z_]+\w*)/', '\1<a target="_blank" href="https://twitter.com/search?q=%23\2&src=hash">#\2</a>', $tweet);
+            //@
+            $tweet = preg_replace('/[@]+([A-Za-z0-9-_]+)/', '<a target="_blank" href="http://twitter.com/$1" target="_blank">@$1</a>', $tweet );
+                    
+                    echo $tweet;
+
+                ?></li>
             <?php endforeach ?>
         </ul>
     </body>
